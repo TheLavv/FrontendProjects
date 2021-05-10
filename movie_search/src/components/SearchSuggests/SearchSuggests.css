@@ -1,0 +1,29 @@
+
+.suggestsBox {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: white;
+    width: 90%;
+}
+
+.suggestsBox-suggest {
+    padding-left: 15px;
+    width: 100%;
+    margin: 0px;
+    height: 40px;
+    border: 0px;
+    background-color: white;
+    text-align: start;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.suggestsBox-suggest:hover {
+    background-color: rgb(179, 172, 172);
+}
+
+.suggestsBox-suggest-search_str {
+    color: rgb(161, 83, 172);
+    font-weight: 700;
+}
