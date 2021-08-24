@@ -5,7 +5,7 @@ import MovieInfo from './components/MovieInfo/MovieInfo'
 import MovieNotFound from './components/MovieNotFound/MovieNotFound'
 
 const Routes = () => (
-    <BrowserRouter basename="/movie_search/build/index.html">
+    <BrowserRouter>
         <Switch>
           <Route exact path='/' component={SearchPage} />
           <Route exact path='/movieInfo/:movieName' component={MovieInfo} />
