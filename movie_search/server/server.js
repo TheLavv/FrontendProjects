@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const port = process.env.PORT || 5000;
+
 mongoose.connect('mongodb://localhost:27017/movie-db');
 
 const Movie = mongoose.model('Movie', {
@@ -70,4 +72,4 @@ app.delete('/movies/:id',
         .catch(() => res.json({status: 'error'}))
 );
 
-app.listen(3001, () => console.log('Listening on port 3001...'));
+app.listen(port, () => console.log('Server is running on: http://localhost:5000'));
