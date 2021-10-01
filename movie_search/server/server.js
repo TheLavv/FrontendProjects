@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('./app/models/movie')
+require('dotenv').config()
 
 const express = require('express');
 const config = require('./config')
