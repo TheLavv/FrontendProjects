@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 require('./app/models/movie')
-require('dotenv').config()
 
 const express = require('express');
 const config = require('./config')
@@ -10,9 +9,14 @@ config.routes(app);
 
 const {port, mongoUri} = config.app;
 
-mongoose.connect(mongoUri)
-    .then(() => app.listen(
-        port,
-        () => console.log(`Server is running on: http://localhost:${port}`)
-    ))
-    .catch(() => console.log(`Error connecting to mongodb: ${mongoUri}`));
+try {
+    mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
+        app.listen(
+            port,
+            () => console.log(`Server is running on: http://localhost:${port}`)
+        )
+    })
+}
+catch (error) {
+    console.log(`Error connecting to mongodb: ${mongoUri}`);
+}
