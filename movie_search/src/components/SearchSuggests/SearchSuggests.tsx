@@ -15,22 +15,23 @@ function SearchSuggests({ input, suggestsBox }: any): JSX.Element {
             if (suggestsBox !== null && suggestsBox.current !== null && e.target !== input.current)
                 suggestsBox.current.style.display = 'none';
         })
-        // eslint-disable-next-line
-    }, [])
+    }, [input, suggestsBox])
 
     return (
         <div>
             {
-                movie.results.map((el: any) => {
-                const decomposed_str = handleTextHighlight(el.title, input);
-                return (
-                    <button className="suggestsBox-suggest" onClick={handleSuggestClick} id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>
-                        <span id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>{decomposed_str.before}</span>
-                        <span className="suggestsBox-suggest-search_str" id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>{decomposed_str.search_str}</span>
-                        <span id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>{decomposed_str.after}</span>
-                    </button>
-                    )
-                })
+                movie && movie.length && (
+                    movie.map((el: any) => {
+                        const decomposed_str = handleTextHighlight(el.title, input);
+                        return (
+                            <button className="suggestsBox-suggest" onClick={handleSuggestClick} id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>
+                                <span id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>{decomposed_str.before}</span>
+                                <span className="suggestsBox-suggest-search_str" id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>{decomposed_str.search_str}</span>
+                                <span id={decomposed_str.before + decomposed_str.search_str + decomposed_str.after}>{decomposed_str.after}</span>
+                            </button>
+                        )
+                    })
+                )
             }
         </div>
     )

@@ -1,8 +1,8 @@
-# Лаборатоная 10
-выполнить задачу описанную ниже в папке lab10, проверить корректность работы на верселе, заполнить отчет
-# ВАЖНО!
-# перед коммитом сделать npm run build, чтоб можно было посмотреть на верселе
+#server
+go to /server && npm run start
 
-## Задание:
-### использовать лабораторную 10
-нужно настроить сборку с redux и typescript, переписать все на typeScript (tsx), использовать redux
+#react client
+npm start in the root of movie_search
+
+#tests
+check /src/tests dir

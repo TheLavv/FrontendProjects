@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {RefObject, useCallback, useState} from 'react'
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import './SearchPage.css'
 import { normalizeUrl} from '../../utils'
-import { useActions } from '../../hooks/useActions';
+import {useMovieActions} from '../../hooks/useMovieActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import SearchSuggests from '../SearchSuggests/SearchSuggests';
 import axios from "axios";
@@ -12,30 +12,25 @@ function SearchPage(): JSX.Element {
     const history: any = useHistory();
     const match = useRouteMatch();
     const input = React.useRef<HTMLInputElement>(null);
+    const inputDelete = React.useRef<HTMLInputElement>(null);
     const cur_url: string = normalizeUrl(match.url);
     const suggestsBoxRef: any = React.useRef<HTMLDivElement>(null);
-    const {fetchMovie} = useActions();
+    const suggestsBoxDeleteRef: any = React.useRef<HTMLDivElement>();
+    const {fetchMovie} = useMovieActions();
     const movie = useTypedSelector(state => state.movie.movie);
+    const [movieToDelete, setMovieToDelete] = useState<string>('');
 
-    const handleApiReq = () => {
-        getData();
-    }
-
-    const deleteData = () => {
-        axios.delete('http://localhost:3001/movies/2');
-    }
+    const deleteData = useCallback(() => {
+        axios.delete(`http://localhost:3001/movies/${movieToDelete}`)
+            .then(() => alert('success'))
+            .catch(() => alert('error'))
+    }, [movieToDelete])
 
     const putData = () => {
         axios.put('http://localhost:3001/movies/2', {
             id: 2,
             name: 'Доктор кто?'
         })
-    }
-
-    const getData = () => {
-        axios.get('http://localhost:3001/movies');
-        console.log(2);
-        setTimeout( () => console.log(1), 4000)
     }
 
     const postData = () => {
@@ -57,10 +52,17 @@ function SearchPage(): JSX.Element {
             fetchMovie(search_str);
     }
 
-    const handleInputClick = (e: any) => {
-        if (suggestsBoxRef !== null)
-                suggestsBoxRef.current.style.display = 'flex';
+    const handleInputClick = (ref: RefObject<any>) => {
+        if (ref !== null)
+                ref.current.style.display = 'flex';
     }
+
+    const handleDeleteInputChange = useCallback((value) => {
+        const search_str: string = value.trim();
+        if (search_str.length > 0)
+            fetchMovie(search_str);
+        setMovieToDelete(value);
+    }, [setMovieToDelete])
 
     return (
         <div className="finder">
@@ -69,22 +71,48 @@ function SearchPage(): JSX.Element {
                 <span className="finderBox-text">Enter your request</span>
                 <div className="finderBox-searchFieldBox">
                     <div className="finderBox-searchFieldBox-content">
-                        <input className="finderBox-input" placeholder="Type to search" type="text" ref={input} onKeyPress={enterPress} onChange={handleChangeSearch}></input>
+                        <input
+                            onClick={() => handleInputClick(suggestsBoxRef)}
+                            className="finderBox-input"
+                            placeholder="Type to search"
+                            type="text"
+                            ref={input}
+                            onKeyPress={enterPress}
+                            onChange={handleChangeSearch}
+                        />
                         <div className="suggestsBox" ref={suggestsBoxRef}>
                             {
-                                movie === null || movie.results === undefined ?
-                                    <div></div>
-                                    :
-                                    <SearchSuggests input={input} suggestsBox={suggestsBoxRef}></SearchSuggests>
+                                movie && movie !== 404 && (
+                                    <SearchSuggests input={input} suggestsBox={suggestsBoxRef} />
+                                )
                             }
                         </div>
                     </div>
                     <button className="finderBox-btn" onClick={findMovie}>Find</button>
-                    <button className="finderBox-btn" onClick={getData}>get</button>
-                    <button className="finderBox-btn" onClick={postData}>post</button>
-                    <button className="finderBox-btn" onClick={deleteData}>delete</button>
-                    <button className="finderBox-btn" onClick={putData}>put</button>
                 </div>
+                <div className="finderBox-searchFieldBox">
+                    <div className="finderBox-searchFieldBox-content">
+                        <input
+                            className="finderBox-input"
+                            placeholder="Enter title"
+                            type="text"
+                            value={movieToDelete}
+                            onChange={(e) => handleDeleteInputChange(e.target.value)}
+                            ref={inputDelete}
+                            onClick={() => handleInputClick(suggestsBoxDeleteRef)}
+                        />
+                        <div className="suggestsBox" ref={suggestsBoxDeleteRef}>
+                            {
+                                movie && movie !== 404 && (
+                                    <SearchSuggests input={inputDelete} suggestsBox={suggestsBoxDeleteRef} />
+                                )
+                            }
+                        </div>
+                    </div>
+                    <button className="finderBox-btn" onClick={deleteData}>Delete</button>
+                </div>
+                <button className="finderBox-btn" onClick={postData}>Post</button>
+                <button className="finderBox-btn" onClick={putData}>Put</button>
             </div>
         </div> 
     )

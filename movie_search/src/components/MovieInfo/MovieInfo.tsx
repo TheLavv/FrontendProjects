@@ -6,7 +6,7 @@ import ReturnBtn from '../ReturnBtn/ReturnBtn';
 import loading from '../../assets/images/loading.png';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { ParamsType } from '../../types/types'
-import { useActions } from '../../hooks/useActions';
+import {useMovieActions} from '../../hooks/useMovieActions';
 import MovieCard from '../MovieCard/MovieCard';
 
 function MovieInfo() {
@@ -15,13 +15,12 @@ function MovieInfo() {
     const params: ParamsType = useParams();
     const cur_url: string = normalizeUrl(match.url);
     const movie = useTypedSelector(state => state.movie.movie);
-    const {fetchMovie, clearMovie} = useActions();
+    const {fetchMovie, clearMovie} = useMovieActions();
 
     useEffect(() => {
         clearMovie();
         fetchMovie(params.movieName);
-        // eslint-disable-next-line
-    }, [cur_url, history, params])
+    }, [])
 
     if (movie === 404)
         history.push(`/movieNotFound`);
@@ -31,10 +30,10 @@ function MovieInfo() {
             <span className="container-header">Movie Search</span>
             <div className="container-content">
                 {
-                    movie.results.map((el: any) => {
+                    movie.map((el: any) => {
                         return (
                             <div className="container-content-cardsBox">
-                                <MovieCard movieEl={el}></MovieCard>
+                                <MovieCard movieEl={el} />
                             </div>
                         );
                     })
@@ -50,6 +49,6 @@ function MovieInfo() {
             <img className="loadingGif" src={loading} alt="loading" />
         </div>
     );
-};
+}
 
 export default MovieInfo;

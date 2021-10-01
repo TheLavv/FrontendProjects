@@ -8,7 +8,7 @@ function MovieCard( {movieEl}: any ): JSX.Element {
 
     return (
         <div className="cardBox">
-            <img className="cardBox-poster" src={"https://image.tmdb.org/t/p/w185" + movieEl.poster_path} alt="poster"></img>
+            <img className="cardBox-poster" src={"https://image.tmdb.org/t/p/w185" + movieEl.poster_path} alt="poster" />
             <div className="cardBox-content">
                 <span className="cardBox-content-title">{movieEl.title}</span>
                 <div className="cardBox-content-description">

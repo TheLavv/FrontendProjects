@@ -9,9 +9,9 @@ config.routes(app);
 
 const {port, mongoUri} = config.app;
 
-mongoose.connect(config.mongoUri)
+mongoose.connect(mongoUri)
     .then(() => app.listen(
         port,
         () => console.log(`Server is running on: http://localhost:${port}`)
     ))
-    .catch(() => console.log(`Error connecting to mongo: ${mongoUri}`));
+    .catch(() => console.log(`Error connecting to mongodb: ${mongoUri}`));

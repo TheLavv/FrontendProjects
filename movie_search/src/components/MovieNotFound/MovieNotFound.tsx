@@ -2,14 +2,14 @@ import './MovieNotFound.css'
 import ReturnBtn from '../ReturnBtn/ReturnBtn'
 import { useHistory, useRouteMatch } from 'react-router';
 import { normalizeUrl } from '../../utils'
-import { useActions } from '../../hooks/useActions';
+import {useMovieActions} from '../../hooks/useMovieActions';
 import { useEffect } from 'react';
 
 function MovieNotFound() {
     const history: any = useHistory();
     const match = useRouteMatch();
     const cur_url: string = normalizeUrl(match.url);
-    const {clearMovie} = useActions();
+    const {clearMovie} = useMovieActions();
     
     useEffect(() => {
         clearMovie();
@@ -20,7 +20,7 @@ function MovieNotFound() {
         <div className="page">
             <span className="page-header">Movie Search</span>
             <div className="page-content">
-                Movie does not exist =(<br></br>    Please try again
+                Movie does not exist =(<br />    Please try again
             </div>
             <ReturnBtn history={history} url={cur_url} />
         </div>

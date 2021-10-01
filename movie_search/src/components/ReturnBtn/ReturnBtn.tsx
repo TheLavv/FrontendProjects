@@ -1,19 +1,20 @@
-import { useActions } from '../../hooks/useActions';
+import {useMovieActions} from '../../hooks/useMovieActions';
 import './ReturnBtn.css'
+import {useHistory} from "react-router";
 
-function ReturnBtn( {history, url}: any ): JSX.Element {
+export default function ReturnBtn( {url}: any ): JSX.Element {
+    const history = useHistory();
     const cur_url: string = url.slice(0, url.split('').lastIndexOf('/'));
-    const {clearMovie} = useActions();
+    const {clearMovie} = useMovieActions();
+
     const goBack = () => {
         history.push(`${cur_url}/`);
         clearMovie()
     }
 
     return (
-    <button className="returnBtn" onClick={goBack}>
+    <button id="return-btn" className="returnBtn" onClick={goBack}>
         Go Back
     </button>
     );
 }
-
-export default ReturnBtn;

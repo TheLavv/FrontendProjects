@@ -3,9 +3,14 @@ const mongoose = require('mongoose');
 const Movie = mongoose.model('Movie');
 
 const getAll = (req, res) => {
-    Movie.find()
+    Movie.find({"title": new RegExp('.*' + req.params.search + '.*')})
         .exec()
-        .then(movies => res.json(movies))
+        .then(movies => {
+            if (movies.length)
+                res.json(movies)
+            else
+                res.status(404).json(movies);
+        })
         .catch(error => res.status(500).json(error));
 }
 
@@ -23,7 +28,7 @@ const update = (req, res) => {
 }
 
 const remove = (req, res) => {
-    Movie.deleteOne({id: req.params.id})
+    Movie.deleteOne({"title": new RegExp('.*' + req.params.title + '.*')})
         .exec()
         .then(() => res.json({success: true}))
         .catch(error => res.status(500).json(error));

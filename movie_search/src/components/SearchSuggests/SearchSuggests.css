@@ -1,18 +1,19 @@
 
 .suggestsBox {
-    display: flex;
+    display: none;
     flex-direction: column;
     border-radius: 10px;
     background-color: white;
     width: 90%;
+    position: absolute;
 }
 
 .suggestsBox-suggest {
     padding-left: 15px;
     width: 100%;
-    margin: 0px;
+    margin: 0;
     height: 40px;
-    border: 0px;
+    border: 0;
     background-color: white;
     text-align: start;
     border-radius: 10px;
