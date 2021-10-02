@@ -1,10 +1,11 @@
 import { Dispatch } from "redux"
 import { MovieAction, MovieActionType } from "../types/types"
 import axios from "axios";
+import {host} from "../store";
 
 export const fetchMovie = (search_str: string) => {
     return async (dispatch: Dispatch<MovieAction>) => {
-        axios.get(`http://localhost:3001/movies/${search_str}`)
+        axios.get(`${host}/movies/${search_str}`)
             .then((res) => {
                 dispatch({
                     type: MovieActionType.FETCH_MOVIE_SUCCESS,
