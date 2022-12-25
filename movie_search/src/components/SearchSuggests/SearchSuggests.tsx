@@ -20,7 +20,7 @@ function SearchSuggests({ input, suggestsBox }: any): JSX.Element {
     return (
         <div>
             {
-                movie && movie.length && (
+                !!movie && !!movie.length && (
                     movie.map((el: any) => {
                         const decomposed_str = handleTextHighlight(el.title, input);
                         return (
